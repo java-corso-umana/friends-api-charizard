@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.friends.api.repositories.UserRepository;
 import org.friends.api.services.interfaces.UserService;
 import org.friends.api.shared.dtos.CreateUserDto;
+import org.friends.api.shared.dtos.UserDto;
 import org.friends.api.shared.entities.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,7 +37,16 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<UserDto> allUsers = new ArrayList<>();
+        for (UserEntity userEntity : userRepository.findAll()) {
+            UserDto userDto = new UserDto();
+            userDto.setUsername(userEntity.getUsername());
+            userDto.setFirstName(userEntity.getName());
+            userDto.setLastName(userEntity.getSurname());
+
+            allUsers.add(userDto);
+        }
+        return allUsers;
     }
 }

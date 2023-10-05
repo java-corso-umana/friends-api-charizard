@@ -2,9 +2,13 @@ package org.friends.api.controllers;
 
 import org.friends.api.services.interfaces.UserService;
 import org.friends.api.shared.dtos.CreateUserDto;
+import org.friends.api.shared.entities.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -17,8 +21,15 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUser(@RequestBody CreateUserDto userDto) {
+    public ResponseEntity<?> createUser(@RequestBody CreateUserDto userDto) {
         userService.createUser(userDto);
-        return "User created";
+        return new ResponseEntity<>("User created", HttpStatus.OK);
+    }
+
+    @PostMapping("/getUsers")
+    public ResponseEntity<?> getList() {
+        List<UserEntity> allUsers;
+        allUsers = userService.getAllUsers();
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 }

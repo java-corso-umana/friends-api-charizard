@@ -8,6 +8,8 @@ import org.friends.api.shared.entities.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserServiceImplementation implements UserService {
@@ -30,5 +32,10 @@ public class UserServiceImplementation implements UserService {
         user.setSurname(createUserDto.getLastName());
 
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 }
